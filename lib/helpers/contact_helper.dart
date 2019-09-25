@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 final String idColumn = "idColumn";
 final String nameColumn = "nameColumn";
@@ -6,7 +7,25 @@ final String emailColumn = "emailColumn";
 final String phoneColumn = "phoneColumn";
 final String imgColumn = "imgColumn";
 
-class ContactHelper {}
+class ContactHelper {
+  static final ContactHelper _instance = ContactHelper.internal();
+  factory ContactHelper() => _instance;
+  ContactHelper.internal();
+  Database _db;
+
+  get db{
+    if(_db != null){
+      return _db;
+    } else {
+      _db = initDb();
+    }
+  }
+
+  initDb() async {
+    final _dataBasePath = await getDatabasesPath();
+    final _path = join(_dataBasePath, "contacts.db");
+  }
+}
 
 class Contact {
   int id;
