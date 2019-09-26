@@ -11,12 +11,6 @@ class _HomePageState extends State<HomePage> {
   ContactHelper helper = ContactHelper();
 
 
-  @override
-  void initState() {
-    super.initState();
-
-
-  }
 
   @override
   Widget build(BuildContext context) {
