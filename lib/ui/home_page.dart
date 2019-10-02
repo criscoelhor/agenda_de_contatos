@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'contact_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum OrderOptions {orderaz, orderza};
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,6 +28,11 @@ class _HomePageState extends State<HomePage> {
         title: Text("Contatos"),
         backgroundColor: Colors.red,
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton<OrderOptions>(
+            itemBuilder: ,
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(

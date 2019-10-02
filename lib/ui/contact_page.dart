@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:agenda_de_contatos/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactPage extends StatefulWidget {
   final Contact contact;
@@ -13,7 +13,6 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
-
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -50,7 +49,7 @@ class _ContactPageState extends State<ContactPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if(_editedContact.name != null && _editedContact.name.isNotEmpty){
+            if (_editedContact.name != null && _editedContact.name.isNotEmpty) {
               Navigator.pop(context, _editedContact);
             } else {
               FocusScope.of(context).requestFocus(_nomeFocus);
@@ -74,6 +73,15 @@ class _ContactPageState extends State<ContactPage> {
                               ? FileImage(File(_editedContact.img))
                               : AssetImage("images/person.png"))),
                 ),
+                onTap: () {
+                  ImagePicker.pickImage(source: ImageSource.camera)
+                      .then((file) {
+                    if (file == null) return;
+                    setState(() {
+                      _editedContact.img = file.path;
+                    });
+                  });
+                },
               ),
               TextField(
                 focusNode: _nomeFocus,
@@ -111,31 +119,31 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Future<bool> _requestPop(){
-    if(_userEdited){
-      showDialog(context: context,
-      builder: (context){
-        return AlertDialog(
-          title: Text("Descartar Alterações?"),
-          content: Text("Se sair as alterações serão perdidas!"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancelar"),
-              onPressed: (){
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Sim"),
-              onPressed: (){
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      }
-      );
+  Future<bool> _requestPop() {
+    if (_userEdited) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Descartar Alterações?"),
+              content: Text("Se sair as alterações serão perdidas!"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Cancelar"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text("Sim"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
       return Future.value(false);
     } else {
       return Future.value(true);
